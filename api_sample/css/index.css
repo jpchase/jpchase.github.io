@@ -1,0 +1,83 @@
+
+body {
+    overflow:hidden;
+    width:100%;
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color:#E4E4E4;
+    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #A7A7A7),
+        color-stop(0.51, #E4E4E4)
+    );
+    background-attachment:fixed;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size:12px;
+    height:100%;
+    margin:0px;
+    padding:0px;
+    width:100%;
+}
+
+/* Portrait layout (default) */
+.app {
+    position: absolute;
+    height:100%;                   /* text area height */
+    width:100%;                   /* text area width */
+    text-align:center;
+    padding:20px 0px 0px 0px;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-sizing: border-box;
+}
+
+h1 {
+    width:100%;
+    font-size:24px;
+    font-weight:normal;
+    margin:0px;
+    overflow:visible;
+    padding:0px;
+}
+
+.heading {
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+}
+
+.output {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 10px;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+}
+
+#mainPage {
+    -webkit-flex: 0 1 auto;
+    flex: 0 1 auto;
+}
+
+#console {
+    -webkit-flex: 1 1 auto;
+}
+
+.outer {
+    display: -webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-aligh:center;
+}
+.inner {
+    text-align: left;
+}
