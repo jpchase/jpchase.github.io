@@ -51,12 +51,12 @@ var app = {
   },
 
   stateChangedEvent: function(evt) {
-    console.log('Received Event: ' + objectToString(evt));
+    console.log('Received Event: ' + evt.type);
     app.updateStateValue();
   },
 
   levelChangedEvent: function(evt) {
-    console.log('Received Event: ' + objectToString(evt));
+    console.log('Received Event: ' + evt.type);
     app.updateLevelValue();
   }
 };
