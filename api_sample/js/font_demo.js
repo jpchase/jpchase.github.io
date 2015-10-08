@@ -15,7 +15,14 @@ var app = {
   // The scope of 'this' is the event. In order to call the 'receivedEvent'
   // function, we must explicitly call 'app.receivedEvent(...);'
   onLoad: function() {
-  	clobberlog();
+    clobberlog();
+
+    if (window.location.protocol === "file:") {
+      window.document.title = "(Local) " + window.document.title;
+    }
+    else if (window.location.protocol != "https:") {
+      window.document.title = "(Unsecure) " + window.document.title;
+    }
 
     document.getElementById("DoButton").onclick = function () {
       getFonts();
