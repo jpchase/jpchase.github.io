@@ -34,8 +34,9 @@ function getFonts () {
           console.log("This font is " + fontDescription.family +
                       " with a style of " + fontDescription.style);
       });
-  }, function() {
+  }, function(error) {
       // failure
+      console.log("getFonts failed: " + error);
   });
 }
 
