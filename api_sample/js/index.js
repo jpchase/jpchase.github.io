@@ -43,11 +43,19 @@ var app = {
 	},
 
   updateStateValue: function() {
-    document.getElementById('RunningInput').value = app.frobulateManager.running;
+    if (app.frobulateManager.running) {
+      document.getElementById('RunningInput').value = app.frobulateManager.running;
+      return;
+    }
+    document.getElementById('RunningInput').value = "[not supported]";
   },
 
   updateLevelValue: function() {
-    document.getElementById('LevelInput').value = app.frobulateManager.level;
+    if (app.frobulateManager.level) {
+      document.getElementById('LevelInput').value = app.frobulateManager.level;
+      return;
+    }
+    document.getElementById('LevelInput').value = "[not supported]";
   },
 
   stateChangedEvent: function(evt) {
