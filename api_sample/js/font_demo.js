@@ -27,6 +27,9 @@ var app = {
     document.getElementById("DoButton").onclick = function () {
       getFonts();
     };
+    document.getElementById("GetBlobButton").onclick = function () {
+      getFontBlob();
+    };
 
 	},
 
@@ -44,6 +47,24 @@ function getFonts () {
   }, function(error) {
       // failure
       console.log("getFonts failed: " + error);
+  });
+}
+
+function getFontBlob () {
+  var fontFamily = "Arial";
+  var fontStyle = "Bold";
+  
+  var fontBlobPromise = FontAccess.getFontBlob(fontFamily, fontStyle);
+  fontBlobPromise.then(function(file) {
+    if (file) {
+      console.log("The font blob for [" + fontFamily + ", " + fontStyle + "] has size: " + file.size);
+    }
+    else {
+      console.log("getFontBlob worked, but no file provided");
+    }
+  }, function(error) {
+      // failure
+    console.log("getFontBlob failed: " + error);
   });
 }
 
