@@ -1,0 +1,48 @@
+<!doctype html>
+<!--
+Copyright 2016 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test programmatic enabling of trials</title>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <meta http-equiv="origin-trial" data-feature="Web Share" data-expires="2016-12-23" content="ApDSdjeaIUDFQobcqYT/AVWv0ElIOryalOeHeKxT4xxPGYQ744s1zDaSrDTl+AE5YKYQyKsEN2A0WR5bJdqz7AsAAABYeyJvcmlnaW4iOiAiaHR0cHM6Ly9qcGNoYXNlLmdpdGh1Yi5pbzo0NDMiLCAiZmVhdHVyZSI6ICJXZWJTaGFyZSIsICJleHBpcnkiOiAxNDgyNTA4NzczfQ==">
+  </head>
+  <body unresolved>
+    <p>
+      <button id="testEmbeddedTokenButton">Test normally embedded token</button>
+    </p>
+    <p>
+      <button id="testAddTokenButton" type="button">Test token added programmatically</button>
+    </p>
+
+    <script>
+      "use strict";
+      testEmbeddedTokenButton.addEventListener('click', function () {
+        if (!navigator.share) {
+          throw "No Web Share support.";
+        }
+        navigator.share({
+            title: document.title,
+            text: "Hello World",
+            url: window.location.href
+        }).then(() => console.log('Successful share'))
+        .catch(error => console.log('Error sharing:', error));
+      });
+    </script>
+  </body>
+</html>
