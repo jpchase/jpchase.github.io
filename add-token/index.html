@@ -21,6 +21,7 @@ limitations under the License.
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 
     <meta http-equiv="origin-trial" data-feature="Web Share" data-expires="2016-12-23" content="ApDSdjeaIUDFQobcqYT/AVWv0ElIOryalOeHeKxT4xxPGYQ744s1zDaSrDTl+AE5YKYQyKsEN2A0WR5bJdqz7AsAAABYeyJvcmlnaW4iOiAiaHR0cHM6Ly9qcGNoYXNlLmdpdGh1Yi5pbzo0NDMiLCAiZmVhdHVyZSI6ICJXZWJTaGFyZSIsICJleHBpcnkiOiAxNDgyNTA4NzczfQ==">
+    <meta http-equiv="origin-trial" data-feature="WebUSB" data-expires="2016-12-29" content="AiOxm3kyvdMpdBaHJN29L6+d+RBdWDEX+oPssiv4xPwPYD4y6dXH98CUBS11sn8XoWx2nI7pX4tb7r+zojoufgsAAABWeyJvcmlnaW4iOiAiaHR0cHM6Ly9qcGNoYXNlLmdpdGh1Yi5pbzo0NDMiLCAiZmVhdHVyZSI6ICJXZWJVU0IiLCAiZXhwaXJ5IjogMTQ4MzA0MjQ1Mn0=">
   </head>
   <body unresolved>
     <p>
@@ -42,6 +43,18 @@ limitations under the License.
             url: window.location.href
         }).then(() => console.log('Successful share'))
         .catch(error => console.log('Error sharing:', error));
+      });
+      testAddTokenButton.addEventListener('click', function () {
+        if (!navigator.usb) {
+          throw "No WebUSB support.";
+        }
+        navigator.usb.getDevices().then(devices => {
+          devices.map(device => {
+            console.log(device.productName);      // "Arduino Micro"
+            console.log(device.manufacturerName); // "Arduino LLC"
+          });
+        })
+        .catch(error => console.log('Error getting devices:', error));
       });
     </script>
   </body>
