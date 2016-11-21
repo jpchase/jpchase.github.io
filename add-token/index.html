@@ -28,7 +28,8 @@ limitations under the License.
       <button id="testEmbeddedTokenButton">Test normally embedded token</button>
     </p>
     <p>
-      <button id="testAddTokenButton" type="button">Test token added programmatically</button>
+      <button id="testAddUSBTokenButton" type="button">Test USB token added by script</button>
+      <button id="testAddLongTaskTokenButton" type="button">Test Long Task token added by script</button>
     </p>
 
     <script>
@@ -44,7 +45,8 @@ limitations under the License.
         }).then(() => console.log('Successful share'))
         .catch(error => console.log('Error sharing:', error));
       });
-      testAddTokenButton.addEventListener('click', function () {
+
+      testAddUSBTokenButton.addEventListener('click', function () {
         var addToken = true;
         if (navigator.usb) {
           console.log('WebUSB already enabled.');
@@ -63,6 +65,38 @@ limitations under the License.
         window.setTimeout(function() {
           if (!navigator.usb) {
             throw "No WebUSB support.";
+          }
+          navigator.usb.getDevices().then(devices => {
+            console.log('Found devices:', devices);
+            devices.map(device => {
+              console.log(device.productName);      // "Arduino Micro"
+              console.log(device.manufacturerName); // "Arduino LLC"
+            });
+          })
+          .catch(error => console.log('Error getting devices:', error));
+        }, 1);
+      });
+
+      testAddLongTaskTokenButton.addEventListener('click', function () {
+        var addToken = true;
+        console.log('window.PerformanceLongTaskTiming', typeof window.PerformanceLongTaskTiming);
+        if (window.PerformanceLongTaskTiming) {
+          console.log('Long Task Observer already enabled.');
+          addToken = false;
+        } else {
+          console.log('Long Task Observer is not yet enabled.');
+        }
+
+        if (addToken) {
+          var tokenElement = document.createElement('meta');
+          tokenElement.httpEquiv = "origin-trial";
+          tokenElement.content = "Ahyzn0uOYivf4Tjc1iTUD1XbBdZHNALfMKTGXD0B5S8vqhNdaNzDUVaKFXKt1vwa1JTE/JlFu46tIAMz9j/shAAAAABgeyJvcmlnaW4iOiAiaHR0cHM6Ly9qcGNoYXNlLmdpdGh1Yi5pbzo0NDMiLCAiZmVhdHVyZSI6ICJMb25nVGFza09ic2VydmVyIiwgImV4cGlyeSI6IDE0ODMzNzk3ODJ9";
+          document.getElementsByTagName('head')[0].appendChild(tokenElement);
+        }
+
+        window.setTimeout(function() {
+          if (!window.PerformanceLongTaskTiming) {
+            throw "No Long Task Observer support.";
           }
           navigator.usb.getDevices().then(devices => {
             console.log('Found devices:', devices);
