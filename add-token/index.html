@@ -24,27 +24,23 @@ limitations under the License.
   <body unresolved>
     <p>
       <button id="testAddUSBTokenButton" type="button">Test USB token added by script</button>
+      <button id="testAddUSBTokenNoNavigatorButton" type="button">Test add USB token without touching navigator</button>
+      <br>
       <button id="testAddLongTaskTokenButton" type="button">Test Long Task token added by script</button>
     </p>
 
     <script>
       "use strict";
-      testAddUSBTokenButton.addEventListener('click', function () {
-        var addToken = true;
-        if (navigator.usb) {
-          console.log('WebUSB already enabled.');
-          addToken = false;
-        } else {
-          console.log('WebUSB is not yet enabled.');
-        }
+      var USBToken = "Aj31RLNyXWXs+HfFd55f4IUSXkPnHRNwSKW4Pu1/D+VoaUQfZUDrS60nh4bPwUUXqhy4vz/dPCTaTqlKN5ApsQUAAABWeyJvcmlnaW4iOiAiaHR0cHM6Ly9qcGNoYXNlLmdpdGh1Yi5pbzo0NDMiLCAiZmVhdHVyZSI6ICJXZWJVU0IiLCAiZXhwaXJ5IjogMTQ4Nzg2NzE0Mn0=";
 
-        if (addToken) {
-          var tokenElement = document.createElement('meta');
-          tokenElement.httpEquiv = "origin-trial";
-          tokenElement.content = "Aj31RLNyXWXs+HfFd55f4IUSXkPnHRNwSKW4Pu1/D+VoaUQfZUDrS60nh4bPwUUXqhy4vz/dPCTaTqlKN5ApsQUAAABWeyJvcmlnaW4iOiAiaHR0cHM6Ly9qcGNoYXNlLmdpdGh1Yi5pbzo0NDMiLCAiZmVhdHVyZSI6ICJXZWJVU0IiLCAiZXhwaXJ5IjogMTQ4Nzg2NzE0Mn0=";
-          document.getElementsByTagName('head')[0].appendChild(tokenElement);
-        }
+      function addTrialToken(token) {
+        var tokenElement = document.createElement('meta');
+        tokenElement.httpEquiv = "origin-trial";
+        tokenElement.content = token;
+        document.getElementsByTagName('head')[0].appendChild(tokenElement);
+      }
 
+      function tryWebUSB() {
         window.setTimeout(function() {
           if (!navigator.usb) {
             throw "No WebUSB support.";
@@ -58,6 +54,27 @@ limitations under the License.
           })
           .catch(error => console.log('Error getting devices:', error));
         }, 1);
+      }
+
+      testAddUSBTokenButton.addEventListener('click', function () {
+        var addToken = true;
+        if (navigator.usb) {
+          console.log('WebUSB already enabled.');
+          addToken = false;
+        } else {
+          console.log('WebUSB is not yet enabled.');
+        }
+
+        if (addToken) {
+          addTrialToken(USBToken);
+        }
+
+        tryWebUSB();
+      });
+
+      testAddUSBTokenNoNavigatorButton.addEventListener('click', function () {
+        addTrialToken(USBToken);
+        tryWebUSB();
       });
 
       testAddLongTaskTokenButton.addEventListener('click', function () {
