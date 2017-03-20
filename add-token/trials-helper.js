@@ -1,13 +1,14 @@
 "use strict";
 
 var LongTaskToken = "AskgqD4TOQnfzHSqOQk1JuvALukPAm4X9GPpyCDoqzqrJUz5ijqvPSNgvkvOxt/otGgrss3eq0JHQnHWIXiWbgYAAABgeyJvcmlnaW4iOiAiaHR0cHM6Ly9qcGNoYXNlLmdpdGh1Yi5pbzo0NDMiLCAiZmVhdHVyZSI6ICJMb25nVGFza09ic2VydmVyIiwgImV4cGlyeSI6IDE0ODc4NjcxOTN9";
-var USBToken = "Aj31RLNyXWXs+HfFd55f4IUSXkPnHRNwSKW4Pu1/D+VoaUQfZUDrS60nh4bPwUUXqhy4vz/dPCTaTqlKN5ApsQUAAABWeyJvcmlnaW4iOiAiaHR0cHM6Ly9qcGNoYXNlLmdpdGh1Yi5pbzo0NDMiLCAiZmVhdHVyZSI6ICJXZWJVU0IiLCAiZXhwaXJ5IjogMTQ4Nzg2NzE0Mn0=";
+// Expiry - seconds: 1493646650; date: 2017-05-01
+var USBToken = "AhLdUnb9/4gg3fScKzZxVloL1QQ8L0EanrlneFr5g5bni18+6tBgV0d0EXO8d7J9pmMWXfJjG8ICXho+SGPk8QsAAABSeyJvcmlnaW4iOiJodHRwczovL2pwY2hhc2UuZ2l0aHViLmlvOjQ0MyIsImZlYXR1cmUiOiJXZWJVU0IyIiwiZXhwaXJ5IjoxNDkzNjQ2NjUwfQ==";
 
 function addTrialToken(token) {
   var tokenElement = document.createElement('meta');
   tokenElement.httpEquiv = "origin-trial";
   tokenElement.content = token;
-  document.getElementsByTagName('head')[0].appendChild(tokenElement);
+  document.head.appendChild(tokenElement);
 }
 
 function detectWebUSB() {
