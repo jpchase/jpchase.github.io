@@ -3,33 +3,79 @@
   <body>
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <div id="player"></div>
-
+    <iframe id="existing-iframe"
+    width="800" height="600"
+    src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1"
+    frameborder="0" allow="autoplay" allowfullscreen
+    ></iframe>
     <script>
-      // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
+      const videos = [
+        { videoId:'Py0-eGxhwPQ', startSeconds: 5144, endSeconds: 5149 },
+        { videoId:'F8E7vrGiiTc', startSeconds: 118, endSeconds: 123 },
+        { videoId:'Bb_EPQw1Uk4', startSeconds: 2452, endSeconds: 2457 },
+        { videoId:'-QDFYtNRDJs', startSeconds: 2496, endSeconds: 2499 },
+        { videoId:'Py0-eGxhwPQ', startSeconds: 358, endSeconds: 366 },
+        { videoId:'ymX8wUweiEA', startSeconds: 1001, endSeconds: 1007 },
+        { videoId:'F8E7vrGiiTc', startSeconds: 269, endSeconds: 281 },
+        { videoId:'-QDFYtNRDJs', startSeconds: 5305, endSeconds: 5309 },
+        { videoId:'9wNEx4rYmXQ', startSeconds: 1500, endSeconds: 1507 },
+        { videoId:'Bb_EPQw1Uk4', startSeconds: 327, endSeconds: 336 },
+        { videoId:'-QDFYtNRDJs', startSeconds: 3911, endSeconds: 3918 },
+        { videoId:'Py0-eGxhwPQ', startSeconds: 1083, endSeconds: 1089 },
+        { videoId:'-QDFYtNRDJs', startSeconds: 995, endSeconds: 1002 },
+        { videoId:'Py0-eGxhwPQ', startSeconds: 2437, endSeconds: 2441 },
+        { videoId:'Bb_EPQw1Uk4', startSeconds: 1080, endSeconds: 1091 },
+        { videoId:'6E-DQZ7s9eU', startSeconds: 1464, endSeconds: 1469 },
+        { videoId:'Py0-eGxhwPQ', startSeconds: 546, endSeconds: 554 },
+        { videoId:'-QDFYtNRDJs', startSeconds: 4175, endSeconds: 4180 },
+        { videoId:'ymX8wUweiEA', startSeconds: 538, endSeconds: 544 },
+        { videoId:'-QDFYtNRDJs', startSeconds: 4253, endSeconds: 4258 },
+        { videoId:'Py0-eGxhwPQ', startSeconds: 1444, endSeconds: 1451 },
+        { videoId:'yd-P1QzSErU', startSeconds: 1267, endSeconds: 1273 },
+        { videoId:'727zsmQVwJU', startSeconds: 97, endSeconds: 105 },
+        { videoId:'ymX8wUweiEA', startSeconds: 802, endSeconds: 807 },
+        { videoId:'6E-DQZ7s9eU', startSeconds: 5029, endSeconds: 5033 },
+        { videoId:'727zsmQVwJU', startSeconds: 2003, endSeconds: 2009 },
+        { videoId:'yd-P1QzSErU', startSeconds: 2230, endSeconds: 2239 },
+        { videoId:'727zsmQVwJU', startSeconds: 350, endSeconds: 356 },
+        { videoId:'9wNEx4rYmXQ', startSeconds: 5221, endSeconds: 5226 },
+        { videoId:'727zsmQVwJU', startSeconds: 1008, endSeconds: 1014 },
+        { videoId:'ymX8wUweiEA', startSeconds: 4725, endSeconds: 4728 },
+        { videoId:'yd-P1QzSErU', startSeconds: 78, endSeconds: 85 },
+        { videoId:'727zsmQVwJU', startSeconds: 4232, endSeconds: 4240 },
+        { videoId:'6E-DQZ7s9eU', startSeconds: 1721, endSeconds: 1725 },
+        { videoId:'ymX8wUweiEA', startSeconds: 2555, endSeconds: 2566 },
+      ];
 
-      tag.src = "https://www.youtube.com/iframe_api";
+      var tag = document.createElement('script');
+      tag.id = 'iframe-demo';
+      tag.src = 'https://www.youtube.com/iframe_api';
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
       var player;
       function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '390',
-          width: '640',
-          videoId: 'M7lc1UVf-VE',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
+        player = new YT.Player('existing-iframe', {
+            playerVars: {
+              'mute': 1
+            },          
+            events: {
+              'onReady': onPlayerReady,
+              'onStateChange': onPlayerStateChange
+            }
         });
       }
 
+      let currentVideoId = 0;
+      let videoReadyStatus = videos.map((video, index) => {
+        return false;
+      });
+
       // 4. The API will call this function when the video player is ready.
       function onPlayerReady(event) {
-        event.target.playVideo();
+        console.log(`onPlayerReady: start videos`);
+        // player.loadVideoById(videos[currentVideoId++]);
+        player.cueVideoById(videos[currentVideoId++]);
       }
 
       // 5. The API calls this function when the player's state changes.
@@ -37,9 +83,28 @@
       //    the player should play for six seconds and then stop.
       var done = false;
       function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-          setTimeout(stopVideo, 6000);
-          done = true;
+        // currentUrl = player.getVideoUrl();
+        // https://www.youtube.com/watch?v=ymX8wUweiEA
+        console.log(`Status change: ${event.data}, currentVideoId: ${currentVideoId}`);
+        // if (videos[currentVideoId].videoId != player.getVideoEmbedCode()) {
+        //   console.log(`Mismatched videos, current = ${videos[currentVideoId].videoId}, player = ${player.getVideoEmbedCode()}`);
+        // }
+        if (event.data == YT.PlayerState.PLAYING || event.data == YT.PlayerState.BUFFERED) {
+          videoReadyStatus[currentVideoId] = true;
+        }
+        if (event.data == YT.PlayerState.CUED) {
+          console.log(`Play video, currentVideoId: ${currentVideoId}`);
+          player.playVideo();
+          videoReadyStatus[currentVideoId] = true;
+        }
+        if (event.data == YT.PlayerState.ENDED && currentVideoId < videos.length) {
+          if (videoReadyStatus[currentVideoId]) {
+            console.log(`Start next video, currentVideoId: ${currentVideoId}`);
+            // player.loadVideoById(videos[currentVideoId++]);
+            player.cueVideoById(videos[currentVideoId++]);
+          } else {
+            console.log(`current video ended before ready`);
+          }
         }
       }
       function stopVideo() {
