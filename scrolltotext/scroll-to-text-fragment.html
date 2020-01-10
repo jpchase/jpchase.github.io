@@ -91,7 +91,8 @@ let test_cases = [
   }
 ];
 
-if (typeof(window.location.fragmentDirective) === 'object') {
+if (typeof(window.location.fragmentDirective) === 'object' ||
+    typeof(window.location.selector) === 'object') {
   document.querySelector('#feature-enabled').textContent = 'Enabled!'
 }
 
