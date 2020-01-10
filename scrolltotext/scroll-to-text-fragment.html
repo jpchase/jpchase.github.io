@@ -18,7 +18,8 @@
           <cite>https://spaceplace.nasa.gov › blue-sky</cite>
         </div>
       </a>
-      <button id="blue-sky-button" data-fragment="#:~:text=sky%20is%20blue" onclick="javascript:openWindow">Open window: #:~:text=sky%20is%20blue</button>
+      <button id="blue-sky-button" data-fragment="#:~:text=sky%20is%20blue">Open window: #:~:text=sky%20is%20blue</button>
+      <button id="blue-sky-legacybutton" data-fragment="##targetText=sky%20is%20blue">(Legacy) Open window: #:~:text=sky%20is%20blue</button>
     </div>
 <script>
 let test_cases = [
@@ -36,6 +37,7 @@ let test_cases = [
   // Test exact text matching, with all combinations of context terms
   {
     fragment: '#:~:text=test',
+    legacyfragment: '##targetText=test',
     expect_position: 'text',
     description:  'Exact text with no context should match text'
   },
@@ -86,6 +88,7 @@ let test_cases = [
   // Test horizontal scroll into view
   {
     fragment: '#:~:text=horizontally%20scrolled%20text',
+    legacyfragment: '##targetText=horizontally%20scrolled%20text',
     expect_position: 'horizontal-scroll',
     description: 'Text directive should horizontally scroll into view'
   }
@@ -98,6 +101,7 @@ if (typeof(window.location.fragmentDirective) === 'object' ||
 
 const linksContainer = document.querySelector('#links');
 document.querySelector('#blue-sky-button').addEventListener('click', openSearchResultWithFragment, false);
+document.querySelector('#blue-sky-legacybutton').addEventListener('click', openSearchResultWithFragment, false);
 
 for (const test_case of test_cases) {
   const link = document.createElement('a');
@@ -109,10 +113,20 @@ for (const test_case of test_cases) {
   button.dataset.fragment = test_case.fragment;
   button.addEventListener('click', openWithFragment, false);
 
+  let legacybutton;
+  if (test_case.legacyfragment) {
+    legacybutton = document.createElement('button');
+    legacybutton.textContent = `(Legacy) Open window: ${test_case.legacyfragment}`;
+    legacybutton.dataset.fragment = test_case.legacyfragment;
+    legacybutton.addEventListener('click', openWithFragment, false);
+  }
   const div = document.createElement('div');
 
   div.appendChild(link);
   div.appendChild(button)
+  if (legacybutton) {
+    div.appendChild(legacybutton);
+  }
 
   linksContainer.appendChild(div);
 }
