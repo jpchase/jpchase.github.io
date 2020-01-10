@@ -4,6 +4,12 @@
 <meta http-equiv="origin-trial" content="AhwLKfZSbYIknxAdBbhAHxk+SAfDCpi7Oj46lR7yF9bxaZxV2HPGhLjDs3l/zmWnyB/sqAM5qp4JNi2pBb9r8Q0AAABieyJvcmlnaW4iOiJodHRwczovL2pwY2hhc2UuZ2l0aHViLmlvOjQ0MyIsImZlYXR1cmUiOiJUZXh0RnJhZ21lbnRJZGVudGlmaWVycyIsImV4cGlyeSI6MTU4MDI1NTk5OX0=">
 <link rel="help" href="https://wicg.github.io/ScrollToTextFragment/">
 <body>
+    <div>
+      <h2>Scroll to Text</h2>
+      <div>
+        Feature Status: <span id="feature-enabled">Disabled</span>
+      </div>
+    </div>
     <div id="links"></div>
     <div class="r">
       <a href="https://spaceplace.nasa.gov/blue-sky/en/#:~:text=sky%20is%20blue">
@@ -84,6 +90,10 @@ let test_cases = [
     description: 'Text directive should horizontally scroll into view'
   }
 ];
+
+if (typeof(window.location.fragmentDirective) === 'object') {
+  document.querySelector('#feature-enabled').textContent = 'Enabled!'
+}
 
 const linksContainer = document.querySelector('#links');
 document.querySelector('#blue-sky-button').addEventListener('click', openSearchResultWithFragment, false);
